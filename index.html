@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+	  <meta charset="utf-8">
+	  <title>メモリチェック</title>
+  </head>
+  <body>
+	  <h1>ラズベリーパイメモリモニタリングシステム Go API版</h1>
+	  <div id="output"></div>
+	  <script>
+	    let element = document.getElementById('output');
+const getData = function() {
+	fetch("http://127.0.0.1:8080/info").then(function(response) {
+		response.json().then(function(data) {
+			mode: 'cors';
+			console.log(data);
+			useper = data["use"] / data["total"] * 100;
+			useper = useper.toFixed(1);
+			freeper = data["free"] / data["total"] * 100;
+			freeper = freeper.toFixed(1);
+			element.textContent = 'メモリ容量：' + data["total"] +'MB'+ '\nメモリ使用中：' + data["use"] +'MB ('+ useper+ '%) \nメモリ空き：' + data["free"]+'MB ('+freeper+'%)';
+		});
+	})
+};
+window.setInterval(getData, 1000);
+	  </script>
+  </body>
+</html>
